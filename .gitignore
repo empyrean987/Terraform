@@ -1,0 +1,10 @@
+.DS_Store
+terraform.tfvars
+*tfstate*
+addons
+scripts
+.terraform
+.tmp
+*.plan
+*_variables.tf
+!common/*_variables.tf
