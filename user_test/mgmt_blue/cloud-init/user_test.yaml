@@ -1,0 +1,20 @@
+#cloud-confif
+package_update: true
+apt_upgrade: true
+runcmd:
+  - sleep 60
+  - [ git, clone, "https://github.com/empyrean987/chef_user.git", /home/ubuntu/chef_user ]
+  - sleep 10
+  - [ curl, -o, "/home/ubuntu/chef_13.6.4-1_amd64.deb",  "https://packages.chef.io/files/stable/chef/13.6.4/ubuntu/16.04/chef_13.6.4-1_amd64.deb" ]
+  - sleep 10
+  - [ curl, -o, "/home/ubuntu/chefdk_2.4.17-1_amd64.deb", "https://packages.chef.io/files/stable/chefdk/2.4.17/ubuntu/16.04/chefdk_2.4.17-1_amd64.deb" ]
+  - sleep 10 
+  - [ dpkg, -i, /home/ubuntu/chef_13.6.4-1_amd64.deb ]
+  - sleep 10
+  - [ dpkg, -i, /home/ubuntu/chefdk_2.4.17-1_amd64.deb ]
+  - sleep 60
+  - [ chef-solo, -c, /home/ubuntu/chef_user/chef-solo/solo.rb ]
+  - aws-ec2-assign-elastic-ip --valid-ips ${public_ip}
+# Capture all subprocess output into a logfile
+# Useful for troubleshooting cloud-init issues
+output: {all: '| tee -a /var/log/cloud-init-output.log'}

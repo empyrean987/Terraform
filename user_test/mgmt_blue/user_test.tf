@@ -1,5 +1,5 @@
-resource "aws_security_group" "bastion" {
-  name = "bastion"
+resource "aws_security_group" "user_test" {
+  name = "user_test"
   ingress {
     from_port = 22
 	  to_port = 22
@@ -21,17 +21,17 @@ resource "aws_security_group" "bastion" {
 	vpc_id = "vpc-079844f0b66b958b8"
 }
 
-resource "aws_eip" "bastion1_eip" {
+resource "aws_eip" "user_test_eip" {
   tags {
-    Name    = "mgmt_blue_bastion"
+    Name    = "mgmt_blue_user_test"
   }
   vpc      = true
 }
 
 data "template_file" "config" {
-  template = "${file("~/SOURCE/Terraform/bastion/cloud-init/bastion.yaml")}"
+  template = "${file("~/SOURCE/Terraform/user_test/mgmt_blue/cloud-init/user_test.yaml")}"
   vars {
-    public_ip     = "${aws_eip.bastion1_eip.public_ip}"
+    public_ip = "${aws_eip.user_test_eip.public_ip}"
   }
 }
 
@@ -51,16 +51,14 @@ resource "aws_launch_configuration" "launch_config" {
   instance_type         = "t2.micro"
   iam_instance_profile  = "bastion_profile"
   key_name              = "knoxm1key"
-  security_groups       = ["${aws_security_group.bastion.id}"]
+  security_groups       = ["${aws_security_group.user_test.id}"]
   user_data             = "${data.template_cloudinit_config.cloudinit.rendered}"
-  #user_data            = "#!/bin/bash -e\npip install aws-ec2-assign-elastic-ip\nsleep 10;aws-ec2-assign-elastic-ip  --valid-ips ${aws_eip.bastion1_eip.public_ip}"
-  #user_data            = "#!/bin/bash -e\npip install aws-ec2-assign-elastic-ip\nsleep 10;aws-ec2-assign-elastic-ip  --valid-ips ${aws_eip.bastion1_eip.public_ip}\naws s3 cp s3://vdi-bootstrap/bootstrap16.sh ~/bootstrap.sh\n/bin/bash ~/bootstrap.sh"
-}
+ }
 
-resource "aws_autoscaling_group" "bastion" {
+resource "aws_autoscaling_group" "user_test" {
   lifecycle { create_before_destroy = true }
   depends_on                = ["aws_launch_configuration.launch_config"]
-  name                      = "mgmt_blue_bastion"
+  name                      = "mgmt_blue_user_test"
   max_size                  = 1
   min_size                  = 1
   health_check_grace_period = 300
@@ -72,10 +70,10 @@ resource "aws_autoscaling_group" "bastion" {
   termination_policies      = ["NewestInstance"]
 }
 
-resource "aws_route53_record" "bastion_mgmt_blue_dns" {
+resource "aws_route53_record" "user_test_mgmt_blue_dns" {
   zone_id = "ZGNEQ4ZSHUCO5"
-  name    = "bst1.clevergirlcustoms.com"
+  name    = "usertest.clevergirlcustoms.com"
   type    = "A"
   ttl     = "60"
-  records = ["${aws_eip.bastion1_eip.public_ip}"]
+  records = ["${aws_eip.user_test_eip.public_ip}"]
 }
