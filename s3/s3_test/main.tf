@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "terraform_backend" {
   acl    = "private"
-  bucket = "test"
+  bucket = "${var.bucket}"
   lifecycle {
     prevent_destroy = true
   }
