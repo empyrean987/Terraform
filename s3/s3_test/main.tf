@@ -4,4 +4,4 @@ module "s3_bucket" {
   bucket              = var.bucket
 }
 
-#variable "bucket" {}
+variable "bucket" {}
