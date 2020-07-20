@@ -1,8 +1,3 @@
-provider "aws" {
-  region = var.region
-  # ... other provider settings ...
-}
-
 module "SG_Test" {
   source              = "./modules/sg_test"
   app_id              = var.app_id
@@ -11,3 +6,7 @@ module "SG_Test" {
   vpc_id              = var.vpc_id
 }
 
+variable "app_id" {}
+variable "app_dest_cidr" {}
+variable "dns_dest_cidr" {}
+variable "vpc_id" {}
