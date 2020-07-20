@@ -1,11 +1,11 @@
 variable "app_id" {
 	default = "test"
-	type = "string"
+	type = string
 }
 
 variable "region" {
 	default = "us-east-1"
-	type = "string"
+	type = string
 }
 
 variable "app_dest_cidr" {
@@ -16,4 +16,9 @@ variable "app_dest_cidr" {
 variable "dns_dest_cidr" {
 	type = string
 	default = "192.168.10.1/32"
+}
+
+variable "vpc_id" {
+	type = string
+	default = "vpc-id"
 }

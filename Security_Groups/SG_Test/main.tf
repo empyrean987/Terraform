@@ -8,5 +8,6 @@ module "SG_Test" {
   app_id              = var.app_id
   app_dest_cidr       = var.app_dest_cidr
   dns_dest_cidr       = var.dns_dest_cidr
+  vpc_id.             = var.vpc_id
 }
 
