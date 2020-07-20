@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = var.region
   # ... other provider settings ...
 }
 
@@ -9,4 +9,5 @@ module "s3_bucket" {
   bucket              = var.bucket
 }
 
+region = "region" {}
 variable "bucket" {}
