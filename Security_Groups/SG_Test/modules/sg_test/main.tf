@@ -14,12 +14,12 @@ resource "aws_security_group_rule" "lambdaegressapp" {
 	security_group_id = "${aws_security_group.lambda_sg}"
 }
 
-resource "aws_security_group_rule" "lambdaegressapp" {
+resource "aws_security_group_rule" "lambdaegressdns" {
 	description = "${var.app_id} Application Security Group Rule"
 	from_port = 214
 	to_port = 214
 	protocol = "tcp"
-	cidr_blocks = ["${var.app_dest_cidr}"]
+	cidr_blocks = ["${var.dns_dest_cidr}"]
 	type = "egress"
 	security_group_id = "${aws_security_group.lambda_sg}"
 }
