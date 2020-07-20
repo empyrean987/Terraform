@@ -4,7 +4,7 @@ resource "aws_security_group" "lambda_sg" {
 	vpc_id = var.vpc_id
 }
 
-resource "aws_security_grup_rule" "lambdaegressapp" {
+resource "aws_security_group_rule" "lambdaegressapp" {
 	description = "${var.app_id} Application Security Group Rule"
 	from_port = 514
 	to_port = 514
