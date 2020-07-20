@@ -11,7 +11,7 @@ resource "aws_security_group_rule" "lambdaegressapp" {
 	protocol = "tcp"
 	cidr_blocks = ["${var.app_dest_cidr}"]
 	type = "egress"
-	security_group_id = "${aws_security_group.lambda_sg}"
+	security_group_id = "${aws_security_group.lambda_sg.id}"
 }
 
 resource "aws_security_group_rule" "lambdaegressdns" {
@@ -21,5 +21,5 @@ resource "aws_security_group_rule" "lambdaegressdns" {
 	protocol = "tcp"
 	cidr_blocks = ["${var.dns_dest_cidr}"]
 	type = "egress"
-	security_group_id = "${aws_security_group.lambda_sg}"
+	security_group_id = "${aws_security_group.lambda_sg.id}"
 }
